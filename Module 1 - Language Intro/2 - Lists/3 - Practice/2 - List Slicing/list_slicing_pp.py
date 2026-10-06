@@ -11,7 +11,7 @@ colors = example_list[:]
 print("Colors in example_list: " + str(colors))
 
 # now, you try: store all of "list" in the variable "numbers"
-numbers = None
+numbers = list[:]
 
 
 # next, you can select everything from a certain index onward to the
@@ -20,7 +20,7 @@ favorites = example_list[3:]
 print("Favorite colors: " + str(favorites))
 
 # your turn: select the last 4 elements of list
-over_10 = None
+over_10 = list[2:]
 
 
 # by moving the integer to behind the colon, you can select everything up
