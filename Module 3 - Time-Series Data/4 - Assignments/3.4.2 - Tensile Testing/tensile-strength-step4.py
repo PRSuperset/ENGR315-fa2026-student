@@ -107,16 +107,16 @@ def calculate_elastic_modulus(strain, stress):
     ### YOUR SOLUTION FROM STEP 3 TEMPLATE HERE ###
 
     # Step 3a: find the point that is 40% of peak stress
-    peak_stress = np.max(stress)
-    secant_stress = 0.4 * peak_stress
+    secant_strain = 0.4 * np.max(stress)
+    peak_index = np.argmax(stress)
+    diffs = np.abs(stress[:peak_index] - secant_strain)
+    
 
-    secant_strain = strain[np.argmin(np.abs(stress - secant_stress))]
 
-    diffs = np.abs(stress - secant_stress)
     linear_index = np.argmin(diffs)
 
-    linear_stress = stress[:linear_index + 1]
-    linear_strain = strain[:linear_index + 1]
+    linear_stress = stress[0:linear_index]
+    linear_strain = strain[0:linear_index]
 
     slope, intercept = np.polyfit(linear_strain, linear_stress, 1)
 
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
     ### Do not modify below this line ###
 
-    path_to_directory = "../../../data/tensile/"
+    path_to_directory = "data/tensile/"
     path_to_samples = path_to_directory + material_folder + "/"
 
     # manually parse file to get gage diameter and then calculate cross-sectional area
