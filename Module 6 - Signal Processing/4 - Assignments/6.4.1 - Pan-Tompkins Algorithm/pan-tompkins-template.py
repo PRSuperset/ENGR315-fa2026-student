@@ -1,5 +1,6 @@
 import numpy as np
 from ekg_testbench import EKGTestBench
+from scipy.signal import find_peaks
 
 def detect_heartbeats(filepath):
     """
@@ -36,7 +37,7 @@ def detect_heartbeats(filepath):
 
     # pass data through differentiator
     ## your code here
-    differentiated = np.diff(signal, pretend=signal[0])
+    differentiated = np.diff(signal, prepend=signal[0])
     # pass data through square function
     ## your code here
     squared = differentiated ** 2
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     ### DO NOT MODIFY BELOW THIS LINE!!! ###
 
     # path to ekg folder
-    path_to_folder = "../../../data/ekg/"
+    path_to_folder = "data/ekg/"
 
     # select a signal file to run
     signal_filepath = path_to_folder + database_name + ".csv"
