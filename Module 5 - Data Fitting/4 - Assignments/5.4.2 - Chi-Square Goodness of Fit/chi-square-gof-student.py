@@ -70,7 +70,7 @@ def normal_fit_test(_samples, _alpha):
     reject = None
 
     # YOUR CODE HERE #
-
+    
     return chi_stat, p_value, reject
 
 

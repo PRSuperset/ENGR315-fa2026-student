@@ -47,7 +47,7 @@ def one_sided_tests(_files: list, _mean: float, _alpha: float, _less_than: bool)
     reject_null_hypothesis = []
 
     # YOUR CODE HERE #
-
+    
     # return files that were rejected
     return reject_null_hypothesis
 

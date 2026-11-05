@@ -70,8 +70,14 @@ def calculate_stress(force, sample_diameter):
     """
 
     # copy your calculate_stress() from Tensile Testing here
+    #calculate the cross-section area (mm^2)
+    cross_sectional_area = math.pi * (sample_diameter / 2) ** 2
 
-    return None
+    # calculate stress (MPa) from load (kN) and cross-sectional area
+    stress = (force * 1000) / cross_sectional_area  # convert kN to N and divide by area in mm^2
+
+    return stress
+
 
 
 def calculate_max_strength_strain(strain, stress):
@@ -85,8 +91,11 @@ def calculate_max_strength_strain(strain, stress):
     """
 
     # copy your calculate_max_strength_strain() from Tensile Testing here
-
-    return -1, -1
+    ultimate_tensile_stress = np.max(stress)
+    fracture_strain = np.max(strain)
+    
+    return ultimate_tensile_stress, fracture_strain
+    
 
 
 def calculate_elastic_modulus(strain, stress):
@@ -103,7 +112,28 @@ def calculate_elastic_modulus(strain, stress):
 
     # copy your calculate_elastic_modulus() from Tensile Testing here
 
-    return None, None, None
+    # dummy variables the function should over write
+    linear_index = None
+    slope = None
+    intercept = None
+    
+        ### YOUR SOLUTION FROM STEP 3 TEMPLATE HERE ###
+    
+        # Step 3a: find the point that is 40% of peak stress
+    secant_strain = 0.4 * np.max(stress)
+    peak_index = np.argmax(stress)
+    diffs = np.abs(stress[:peak_index] - secant_strain)
+        
+    
+    
+    linear_index = np.argmin(diffs)
+    
+    linear_stress = stress[0:linear_index]
+    linear_strain = strain[0:linear_index]
+    
+    slope, intercept = np.polyfit(linear_strain, linear_stress, 1)
+    
+    return linear_index, slope, intercept
 
 
 def calculate_percent_offset(slope, strain, stress):
@@ -118,8 +148,21 @@ def calculate_percent_offset(slope, strain, stress):
     """
 
     # copy your calculate_percent_offset() from Tensile Testing here
+    # set the desired offset for the line
+    offset = 0.002
 
-    return None, -1
+    # calculate the offset line: y=m(x-0.002) + 0
+    offset_line = slope * (strain - offset)
+
+    # measure distance from all points on graph to this line. Consider using the
+    # abs() method to ensure values are positive
+    distance = np.abs(stress - offset_line)
+
+    # use argmin to find the index where the distance is minimal
+    intercept_index = np.argmin(distance)
+
+    return offset_line, intercept_index
+    
 
 
 def calculate_yield_strength(strain, stress, modulus):
