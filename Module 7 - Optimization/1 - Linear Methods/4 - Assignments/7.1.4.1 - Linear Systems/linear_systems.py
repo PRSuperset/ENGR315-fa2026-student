@@ -22,7 +22,7 @@ def direct_solve(_A, _b):
     :return: length-n numpy array of solution values
     """
     # Hint: use np.linalg.solve() as in lecture.
-    currents = None
+    currents = np.linalg.solve(_A,_b)
 
     # YOUR CODE HERE #
 
@@ -36,8 +36,8 @@ def verify_solution(_A, _b, _x):
              equal to A @ x and matches is a Python bool from np.allclose().
     """
     # Hint: use np.dot() and np.allclose() as in lecture.
-    calculated_b = None
-    matches = None
+    calculated_b = np.dot(_A,_x)
+    matches = np.allclose(calculated_b, _b)
 
     # YOUR CODE HERE #
 
@@ -57,10 +57,24 @@ def jacobi_solve(_A, _b, _tolerance=0.001, _max_iterations=100):
              and converged is a Python bool.
     """
     # Hint: use np.diag(), np.dot(), a for loop, and an if statement.
-    x = None
-    iterations = None
-    converged = None
+    n = len(_b)
+    x = np.zeros(n)
+    D = np.diag(_A)
+    
+    converged = False
 
+    for iterations in range(1, _max_iterations + 1):
+        x_new = np.zeros(n)
+
+        for i in range(n):
+            sum_terms = np.dot(_A[i], x) - _A[i, i] * x[i]
+            x_new[i] = (_b[i] - sum_terms) / D[i]
+
+        if np.max(np.abs(x_new - x)) < _tolerance:
+            converged = True
+            x = x_new
+            break
+        x = x_new
     # YOUR CODE HERE #
 
     return x, iterations, converged
@@ -73,8 +87,7 @@ def scipy_iterative_solve(_A, _b, _rtol=1e-5):
              integer status from cg() (0 means successful convergence).
     """
     # Hint: cg(A, b, rtol=_rtol) returns two values.
-    x = None
-    info = None
+    x, info = cg(_A, _b, rtol=_rtol)
 
     # YOUR CODE HERE #
 
